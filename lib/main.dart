@@ -1,33 +1,82 @@
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterday04/flashcard.dart';
+import 'package:flutterday04/flashcard_view.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+  const MyApp({super.key});
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  List<Flashcard> _flashcard = [
+    Flashcard(
+      question: "question",
+      answer: "answer",
+    ),
+    Flashcard(question: "question2", answer: "answer2"),
+    Flashcard(question: "question3", answer: "answer3")
+  ];
+
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-  return const MaterialApp(home: 
-  Scaffold(body: 
-  Center(child: Column(children: [],),),),);
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 250,
+                height: 250,
+                child: FlipCard(
+                  front: FlashCard(title: _flashcard[_currentIndex].question),
+                  back: Card(
+                    elevation: 5,
+                    child: Center(
+                      child: FlashCard(title: _flashcard[_currentIndex].answer),
+                    ),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  OutlinedButton.icon(
+                      onPressed: showPreCard,
+                      icon: const Icon(Icons.chevron_left),
+                      label: const Text("Pre")),
+                  OutlinedButton.icon(
+                      onPressed: showNextCard,
+                      icon: const Icon(Icons.chevron_right),
+                      label: const Text("next")),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showNextCard() {
+    setState(() {
+      _currentIndex =
+          _currentIndex + 1 < _flashcard.length ? _currentIndex + 1 : 0;
+    });
+  }
+
+  void showPreCard() {
+    setState(() {
+      _currentIndex =
+          _currentIndex - 1 >= 0 ? _currentIndex - 1 : _flashcard.length - 1;
+    });
   }
 }
