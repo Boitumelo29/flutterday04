@@ -16,8 +16,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   List<Flashcard> _flashcard = [
     Flashcard(
-      question: "question",
-      answer: "answer",
+      question: "question1",
+      answer: "answer1",
     ),
     Flashcard(question: "question2", answer: "answer2"),
     Flashcard(question: "question3", answer: "answer3")
